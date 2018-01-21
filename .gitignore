@@ -1,6 +1,6 @@
 ap_88_89/*
 index/*
 trec_eval/*
+results/*
 *.run
-*.txt
 .ipynb_checkpoints/*

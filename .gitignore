@@ -2,5 +2,7 @@ ap_88_89/*
 index/*
 trec_eval/*
 results/*
+results_test/*
+results_validation/*
 *.run
 .ipynb_checkpoints/*

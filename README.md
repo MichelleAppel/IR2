@@ -13,6 +13,7 @@ Information Retrieval 2
     - use optimal hyper parameter for the test run evaluation
 - positional language model:
     - implement __[MJ]__
+    - implement kernel functions
     - sanity check
     - tune hyper parameters
     - use optimal hyperparameters in test run

@@ -6,3 +6,6 @@ results_test/*
 results_validation/*
 *.run
 .ipynb_checkpoints/*
+*.csv
+results_*
+

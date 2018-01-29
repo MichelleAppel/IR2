@@ -1,10 +1,34 @@
 \section{Lexical Models}
 
+In this section we compare different lexical retrieval models.
+We first describe the models that we investigated,
+and then discuss our comparison experiment.
+
 \subsection{Models}
 
 %%%%%%%%% It should explain what you have implemented
 
 \subsubsection{TF-IDF}
+
+The tf\textendash idf score is the product of two statistics, 
+term frequency and inverse document frequency.
+The term frequency indicates how often a given term occurs in a document,
+while the inverse document frequency quantifies the specificity of the term.
+That is, a term is more specific if it occurs less frequently in the documents of the corpus.  
+
+To score a document for a given query, 
+we sum over the tf-idf scores of the individual words in the query.
+We use the following formula to calculate these scores: 
+
+\begin{equation*}
+tfidf(t,d) = \log(1 + tf(t,d)) * \log\frac{n}{df(t)}
+\end{equation*}
+
+We use $\log(1 + tf(t,d))$ instead of the raw term frequency $tf(t,d)$
+to account for the fact that relevance	does not increase proportionally with term	
+frequency. The document frequency is calculated as $df(t) = \#\{d:tf(t,d) > 0\}$.
+
+
 
 \subsubsection{BM25}
 
@@ -35,6 +59,27 @@ We use trec eval and compare on ...
 - Recall@1000.
 
 \subsection{Optimizing Hyper Parameters}
+
+- We use NDCG@10 as a metric. Why?
+
+Jelinek Mercer:
+0.1: 0.450
+0.5: 0.468
+0.9: 0.468
+
+Dirichlet Prior:
+500: 0.484
+1000: 0.489
+1500: 0.484
+
+Absolute Discounting:
+0.1: 0.454
+0.5: 0.461
+0.9: 0.478
+
+Positional Language Model:
+
+\input{content/tbl_plm_hyperparams}
 
 
 \subsection{Results}

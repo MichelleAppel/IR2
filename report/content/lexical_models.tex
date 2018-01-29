@@ -31,7 +31,7 @@ frequency. The document frequency is calculated as $df(t) = \#\{d:tf(t,d) > 0\}$
 
 \subsubsection{BM25}
 
-BM25 is a slightly more advanced model compared to tf\textendash idf.
+The BM25 model is slightly more advanced than the tf\textendash idf model.
 In addition to term frequency and inverse document frequency,
 it also has a component that controls for the document length.
 
@@ -49,11 +49,22 @@ We use $k = 1.5$ and $b = 0.75$ in our evaluation as commonly used default value
  
 \subsubsection{Language Models}
 
-- Jelinek-Mercer
+A statistical language model is a probability distribution over word sequences.
+To score a given document-query pair, we calculate the query likelihood
+$p(q|d)$ (which is proportional to $p(d|q)$ when we assume a uniform prior for $p(d)$).
+We use the unigram approximation to calculate the query probability,
+that is, we multiply over the probabilities of the individual words of the query.
 
-- Dirichlet prior
+We consider three different language models that are different in the way that
+they handle smoothing, i.e. adjusting the maximum likelihood estimate to avoid 
+zero probability for unseen words.
 
-- Absolute Discounting
+\paragraph{Jelinek-Mercer}
+
+\paragraph{Dirichlet Prior}
+
+\paragraph{Absolute Discounting}
+
 
 \subsubsection{Positional Language Model}
 

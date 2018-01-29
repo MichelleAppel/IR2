@@ -1,20 +1,107 @@
 \section{Lexical Models}
 
+In this section we compare different lexical retrieval models.
+We first describe the models that we investigated,
+and then discuss our comparison experiment.
+
 \subsection{Models}
 
 %%%%%%%%% It should explain what you have implemented
 
 \subsubsection{TF-IDF}
 
+The tf\textendash idf score is the product of two statistics, 
+term frequency and inverse document frequency.
+The term frequency indicates how often a given term occurs in a document,
+while the inverse document frequency quantifies the specificity of the term.
+That is, a term is more specific if it occurs less frequently in the documents of the corpus.  
+
+To calculate the tf-idf score of a document for a given query, 
+we sum over the tf-idf scores of the individual words in the query.
+We use the following formula to calculate these scores: 
+
+\begin{equation*}
+tfidf(t,d) = \log(1 + tf(t,d)) \cdot \log\frac{n}{df(t)}
+\end{equation*}
+
+We use $\log(1 + tf(t,d))$ instead of the raw term frequency $tf(t,d)$
+to account for the fact that relevance	does not increase proportionally with term	
+frequency. The document frequency is calculated as $df(t) = \#\{d:tf(t,d) > 0\}$.
+
+
 \subsubsection{BM25}
 
+The BM25 model is slightly more advanced than the tf\textendash idf model.
+In addition to term frequency and inverse document frequency,
+it also has a component that controls for the document length.
+
+To calculate the BM25 score of a document for a given query, 
+we sum over the BM25 scores of the individual words in the query.
+We use the following formula to calculate these scores: 
+
+\begin{equation*}
+BM25(t,d) = \frac{(k + 1) tf(t,d)}{k(1 - b + b \cdot \frac{l_d}{l_{avg}} ) + tf(t,d)} \cdot \log\frac{n}{df(t)} 
+\end{equation*}
+
+The values $l_d$ and $l_avg$ represent the document length and the average
+document length, respectively.
+We use $k = 1.5$ and $b = 0.75$ in our evaluation as commonly used default values.
+ 
 \subsubsection{Language Models}
 
-- Jelinek-Mercer
+A statistical language model is a probability distribution over word sequences.
+To score a given document-query pair, we calculate the query likelihood
+$p(q|d)$, which is proportional to $p(d|q)$ when we assume a uniform prior for $p(d)$.
+We use the unigram approximation to calculate the query probability,
+that is, we multiply over the probabilities of the individual words of the query
+(in our actual implementation we sum over the log values to avoid underflow).
 
-- Dirichlet prior
+We consider three different language models that are different in the way that
+they handle smoothing, i.e. adjusting the maximum likelihood estimate to avoid 
+zero probability for unseen words.
 
-- Absolute Discounting
+\paragraph{Jelinek-Mercer}
+
+The Jelinek-Mercer model calculates the probability of a word by
+interpolating the language model based on the document with
+a background language model based on the full corpus.
+The formula is given below.
+
+\begin{equation*}
+p_{\lambda}(w | d) = \lambda \frac{tf(w,d)}{|d|} + (1 - \lambda) \frac{tf(w,C)}{|C|}
+\end{equation*}
+
+
+\paragraph{Dirichlet Prior}
+
+The next language model we consider is the Dirichlet prior model.
+Dirichlet prior smoothing also interpolates the maximum 
+likelihood estimate with a background model,
+but in this case the factor $\lambda$ depends on the document length;
+the longer the document the lower the weight of the background component $(1-\lambda)$.
+The formula for the Dirichlet model is given below:
+
+\begin{equation*}
+p_{\mu}(w | d) = \frac{tf(w,d)}{|d| + \mu}  + \frac{\mu}{\mu + |d|} \frac{tf(w,C)}{|C|}  
+\end{equation*}
+
+
+\paragraph{Absolute Discounting}
+
+The final language model that we consider is absolute discounting,
+which lowers the probability of unseen words by substracting a constant
+value from their counts.
+The formula is given below (with $|d|$ the length of the document and $|d|_u$ the number 
+of unique words):
+
+\begin{equation*}
+p_{\delta}(w | d) = \frac{\max(tf(w,d) - \delta, 0)}{|d|} + \frac{\delta |d|_{u}}{|d|} \frac{tf(w,C)}{|C|}  
+\end{equation*}
+
+
+\begin{equation*}
+\end{equation*}
+
 
 \subsubsection{Positional Language Model}
 
@@ -35,6 +122,27 @@ We use trec eval and compare on ...
 - Recall@1000.
 
 \subsection{Optimizing Hyper Parameters}
+
+- We use NDCG@10 as a metric. Why?
+
+Jelinek Mercer:
+0.1: 0.450
+0.5: 0.468
+0.9: 0.468
+
+Dirichlet Prior:
+500: 0.484
+1000: 0.489
+1500: 0.484
+
+Absolute Discounting:
+0.1: 0.454
+0.5: 0.461
+0.9: 0.478
+
+Positional Language Model:
+
+\input{content/tbl_plm_hyperparams}
 
 
 \subsection{Results}

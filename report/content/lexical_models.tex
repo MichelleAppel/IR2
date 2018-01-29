@@ -51,9 +51,10 @@ We use $k = 1.5$ and $b = 0.75$ in our evaluation as commonly used default value
 
 A statistical language model is a probability distribution over word sequences.
 To score a given document-query pair, we calculate the query likelihood
-$p(q|d)$ (which is proportional to $p(d|q)$ when we assume a uniform prior for $p(d)$).
+$p(q|d)$, which is proportional to $p(d|q)$ when we assume a uniform prior for $p(d)$.
 We use the unigram approximation to calculate the query probability,
-that is, we multiply over the probabilities of the individual words of the query.
+that is, we multiply over the probabilities of the individual words of the query
+(in our actual implementation we sum over the log values to avoid underflow).
 
 We consider three different language models that are different in the way that
 they handle smoothing, i.e. adjusting the maximum likelihood estimate to avoid 
@@ -61,9 +62,45 @@ zero probability for unseen words.
 
 \paragraph{Jelinek-Mercer}
 
+The Jelinek-Mercer model calculates the probability of a word by
+interpolating the language model based on the document with
+a background language model based on the full corpus.
+The formula is given below.
+
+\begin{equation*}
+p_{\lambda}(w | d) = \lambda \frac{tf(w,d)}{|d|} + (1 - \lambda) \frac{tf(w,C)}{|C|}
+\end{equation*}
+
+
 \paragraph{Dirichlet Prior}
 
+The next language model we consider is the Dirichlet prior model.
+Dirichlet prior smoothing also interpolates the maximum 
+likelihood estimate with a background model,
+but in this case the factor $\lambda$ depends on the document length;
+the longer the document the lower the weight of the background component $(1-\lambda)$.
+The formula for the Dirichlet model is given below:
+
+\begin{equation*}
+p_{\mu}(w | d) = \frac{tf(w,d)}{|d| + \mu}  + \frac{\mu}{\mu + |d|} \frac{tf(w,C)}{|C|}  
+\end{equation*}
+
+
 \paragraph{Absolute Discounting}
+
+The final language model that we consider is absolute discounting,
+which lowers the probability of unseen words by substracting a constant
+value from their counts.
+The formula is given below (with $|d|$ the length of the document and $|d|_u$ the number 
+of unique words):
+
+\begin{equation*}
+p_{\delta}(w | d) = \frac{\max(tf(w,d) - \delta, 0)}{|d|} + \frac{\delta |d|_{u}}{|d|} \frac{tf(w,C)}{|C|}  
+\end{equation*}
+
+
+\begin{equation*}
+\end{equation*}
 
 
 \subsubsection{Positional Language Model}

@@ -16,12 +16,12 @@ The term frequency indicates how often a given term occurs in a document,
 while the inverse document frequency quantifies the specificity of the term.
 That is, a term is more specific if it occurs less frequently in the documents of the corpus.  
 
-To score a document for a given query, 
+To calculate the tf-idf score of a document for a given query, 
 we sum over the tf-idf scores of the individual words in the query.
 We use the following formula to calculate these scores: 
 
 \begin{equation*}
-tfidf(t,d) = \log(1 + tf(t,d)) * \log\frac{n}{df(t)}
+tfidf(t,d) = \log(1 + tf(t,d)) \cdot \log\frac{n}{df(t)}
 \end{equation*}
 
 We use $\log(1 + tf(t,d))$ instead of the raw term frequency $tf(t,d)$
@@ -29,9 +29,24 @@ to account for the fact that relevance	does not increase proportionally with ter
 frequency. The document frequency is calculated as $df(t) = \#\{d:tf(t,d) > 0\}$.
 
 
-
 \subsubsection{BM25}
 
+BM25 is a slightly more advanced model compared to tf\textendash idf.
+In addition to term frequency and inverse document frequency,
+it also has a component that controls for the document length.
+
+To calculate the BM25 score of a document for a given query, 
+we sum over the BM25 scores of the individual words in the query.
+We use the following formula to calculate these scores: 
+
+\begin{equation*}
+BM25(t,d) = \frac{(k + 1) tf(t,d)}{k(1 - b + b \cdot \frac{l_d}{l_{avg}} ) + tf(t,d)} \cdot \log\frac{n}{df(t)} 
+\end{equation*}
+
+The values $l_d$ and $l_avg$ represent the document length and the average
+document length, respectively.
+We use $k = 1.5$ and $b = 0.75$ in our evaluation as commonly used default values.
+ 
 \subsubsection{Language Models}
 
 - Jelinek-Mercer

@@ -1,10 +1,11 @@
 \section{Lexical Models}
 
-In this section we compare different lexical retrieval models.
-We first describe the models that we investigated,
-and then discuss our comparison experiment.
+In this section we compare different lexical retrieval models
+(Section \ref{LexicalModels:Models}) using
+offline evaluation (Section \ref{LexicalModels:Evaluation}).
 
 \subsection{Models}
+\label{LexicalModels:Models}
 
 %%%%%%%%% It should explain what you have implemented
 
@@ -102,12 +103,73 @@ p_{\delta}(w | d) = \frac{\max(tf(w,d) - \delta, 0)}{|d|} + \frac{\delta |d|_{u}
 \subsubsection{Positional Language Model}
 
 The positional language model differs from the other
-language model by the fact tha it takes the proximity
+language models by the fact that it takes the proximity
 of query term occurrences into account. That is,
 it rewards documents with matching query terms
-close to each other. A detailed explanation
-can be found in \cite{PLM}.
+close to each other.
+ %
+A language model for each position in a given document 
+is calculated from the words in the document discounted
+based on their distance to the position using a kernel function.
+The final score for a word is determined by the score 
+of the word at the best position.
+We determine the final score of a document query pair
+as the score of the multiplied probabilities of the words 
+at the best position. A detailed explanation
+of the positional language model can be found in \cite{PLM}.
 
+We implemented the positional language model
+with the best position strategy and dirichlet prior smoothing.
+We considered five different kernel functions:
+Gaussian, Triangle, Cosine, Circle and Passage
+with $\sigma = 50$ fixed.
+The formulas for these functions are in \cite{PLM},
+except for the \textit{Passage} kernel which
+is given by $I(|i - j| <= \sigma)$.
+
+
+\paragraph{Implementation}
+
+Given a kernel function $k$ and $c(w,j)$ the indicator
+function of a word $w$ at position $i$,
+the formula for the positional language model is:
+
+\begin{equation*}
+p(w|D,i) = \frac{\sum_{j=1}^N c(w,j)k(i,j)}
+{\sum_{w' \in V} \sum_{j=1}^N c(w',j)k(i,j)} 
+\end{equation*}
+
+Calculating the $p(q|D,i)$ for each position
+in order to determine the $p(q|D,i)$ at the 
+best position is computationally expensive.
+For this reason, we optimized the implementation.
+
+First, we only consider positions in the interval
+(inclusive) between the left most occurrence and the right most
+occurrence of a query term in the document.
+We can savely assume that the best position is within this interval
+since the excluded positions have lower probability
+than the left and right most positions
+by nature of the kernel functions.
+
+Secondly, we apply the optimization 
+described in \cite{PLM} for calculating
+$\sum_{w' \in V} \sum_{j=1}^N c(w',j)k(i,j)$.
+That is, we calculate $\sum_{j=1}^N k(j,i)$ which
+is shown to be equivalent.
+
+Finally, we cache values that we calculate for 
+$\sum_{j=1}^N k(j,i)$. That is,
+we build a cache that returns the
+value for $\sum_{j=1}^N k(j,i)$ given
+a kernel function $k$, a document length $N$
+and a position $i$. The cache structure
+significantly reduced the run time
+for our test and evaluation runs.
+
+
+\subsection{Offline Evaluation}
+\label{LexicalModels:Evaluation}
 
 \subsection{Experimental Setup}
 

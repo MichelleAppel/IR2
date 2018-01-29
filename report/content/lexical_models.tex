@@ -99,13 +99,14 @@ p_{\delta}(w | d) = \frac{\max(tf(w,d) - \delta, 0)}{|d|} + \frac{\delta |d|_{u}
 \end{equation*}
 
 
-\begin{equation*}
-\end{equation*}
-
-
 \subsubsection{Positional Language Model}
 
-- implementation: we optimized the performance ...
+The positional language model differs from the other
+language model by the fact tha it takes the proximity
+of query term occurrences into account. That is,
+it rewards documents with matching query terms
+close to each other. A detailed explanation
+can be found in \cite{PLM}.
 
 
 \subsection{Experimental Setup}

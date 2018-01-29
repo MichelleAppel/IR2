@@ -1,10 +1,28 @@
 \begin{center}
+\begin{table}
+\scriptsize
   \begin{tabular}{ r | c | c | c | c | c | c }
-                & TF-IDF & BM25 & Jelinek-Mercer & Dirichlet & Abs. Discounting & PLM \\ \hline
-    precision@5 & 0.504 & 0.467 & 0.470 & 0.489 & 0.472 & PLM \\ \hline
-    recall@1000 & 0.983 & 0.983 & 0.983 & 0.983 & 0.983 & PLM \\ \hline
-    map@1000    & 0.409 & 0.408 & 0.407 & 0.414 & 0.405 & PLM \\ \hline
-    ndcg@10     & 0.490 & 0.479 & 0.468 & 0.484 & 0.461 & PLM \\
+                & \thead{TF-IDF} & \thead{BM25} & 
+                \thead{JM} & \thead{Dir.} & 
+                \thead{Abs. D.} & \thead{PLM} \\ \hline
+    \thead{prec@5} & 0.504 & 0.467 & 0.470 & 0.489 & 0.472 & PLM \\ \hline
+    \thead{recall@1000} & 0.983 & 0.983 & 0.983 & 0.983 & 0.983 & PLM \\ \hline
+    \thead{map@1000}    & 0.409 & 0.408 & 0.407 & 0.414 & 0.405 & PLM \\ \hline
+    \thead{ndcg@10}     & 0.490 & 0.479 & 0.468 & 0.484 & 0.461 & PLM \\
     \hline
   \end{tabular}
+
+\vspace{5pt}  
+  
+  \caption{
+     Mean scores on the testset for the following retrieval models:
+     TF-IDF,
+     BM25,
+     Jelinek-Mercer (0.9),
+     Dirichlet Prior (1500),
+     Absolute Discounting (0.1),
+     Positional Language Model (k, mu)
+  }
+  \label{tbl_means}
+\end{table}
 \end{center}

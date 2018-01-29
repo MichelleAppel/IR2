@@ -16,7 +16,7 @@ term frequency and inverse document frequency.
 The term frequency indicates how often a given term occurs in a document,
 while the inverse document frequency quantifies the specificity of the term.
 That is, a term is more specific if it occurs less frequently in the documents of the corpus.  
-
+%
 To calculate the tf-idf score of a document for a given query, 
 we sum over the tf-idf scores of the individual words in the query.
 We use the following formula to calculate these scores: 
@@ -26,25 +26,24 @@ tfidf(t,d) = \log(1 + tf(t,d)) \cdot \log\frac{n}{df(t)}
 \end{equation*}
 
 We use $\log(1 + tf(t,d))$ instead of the raw term frequency $tf(t,d)$
-to account for the fact that relevance	does not increase proportionally with term	
-frequency. The document frequency is calculated as $df(t) = \#\{d:tf(t,d) > 0\}$.
+to account for the fact that relevance	does not increases proportionally with the term frequency. The document frequency is calculated as $df(t) = \#\{d:tf(t,d) > 0\}$.
 
 
 \subsubsection{BM25}
 
-The BM25 model is slightly more advanced than the tf\textendash idf model.
-In addition to term frequency and inverse document frequency,
-it also has a component that controls for the document length.
-
+The BM25 model is slightly more advanced than the tf\textendash idf model;
+in addition to term frequency and inverse document frequency
+it also includes a component that controls for the document length.
+%
 To calculate the BM25 score of a document for a given query, 
-we sum over the BM25 scores of the individual words in the query.
+we sum over the BM25 scores of the unique words in the query.
 We use the following formula to calculate these scores: 
 
 \begin{equation*}
 BM25(t,d) = \frac{(k + 1) tf(t,d)}{k(1 - b + b \cdot \frac{l_d}{l_{avg}} ) + tf(t,d)} \cdot \log\frac{n}{df(t)} 
 \end{equation*}
 
-The values $l_d$ and $l_avg$ represent the document length and the average
+The values $l_d$ and $l_{avg}$ represent the document length and the average
 document length, respectively.
 We use $k = 1.5$ and $b = 0.75$ in our evaluation as commonly used default values.
  
@@ -52,9 +51,11 @@ We use $k = 1.5$ and $b = 0.75$ in our evaluation as commonly used default value
 
 A statistical language model is a probability distribution over word sequences.
 To score a given document-query pair, we calculate the query likelihood
-$p(q|d)$, which is proportional to $p(d|q)$ when we assume a uniform prior for $p(d)$.
-We use the unigram approximation to calculate the query probability,
-that is, we multiply over the probabilities of the individual words of the query
+$p(q|d)$, which is proportional to $p(d|q)$, 
+assuming a uniform prior for $p(d)$.
+We use the unigram approximation to calculate the query probability.
+That is, we calculate the probability of the query by
+multiplying the probabilities of the individual words of the query
 (in our actual implementation we sum over the log values to avoid underflow).
 
 We consider three different language models that are different in the way that
@@ -75,7 +76,6 @@ p_{\lambda}(w | d) = \lambda \frac{tf(w,d)}{|d|} + (1 - \lambda) \frac{tf(w,C)}{
 
 \paragraph{Dirichlet Prior}
 
-The next language model we consider is the Dirichlet prior model.
 Dirichlet prior smoothing also interpolates the maximum 
 likelihood estimate with a background model,
 but in this case the factor $\lambda$ depends on the document length;
@@ -89,11 +89,8 @@ p_{\mu}(w | d) = \frac{tf(w,d)}{|d| + \mu}  + \frac{\mu}{\mu + |d|} \frac{tf(w,C
 
 \paragraph{Absolute Discounting}
 
-The final language model that we consider is absolute discounting,
-which lowers the probability of unseen words by substracting a constant
-value from their counts.
-The formula is given below (with $|d|$ the length of the document and $|d|_u$ the number 
-of unique words):
+Absolute discounting lowers the probability of seen words by substracting a constant value from their counts.
+The formula is given below, with $|d|$ the length of the document and $|d|_u$ the number of unique words:
 
 \begin{equation*}
 p_{\delta}(w | d) = \frac{\max(tf(w,d) - \delta, 0)}{|d|} + \frac{\delta |d|_{u}}{|d|} \frac{tf(w,C)}{|C|}  
@@ -107,31 +104,33 @@ language models by the fact that it takes the proximity
 of query term occurrences into account. That is,
 it rewards documents with matching query terms
 close to each other.
- %
+%
 A language model for each position in a given document 
 is calculated from the words in the document discounted
-based on their distance to the position using a kernel function.
-The final score for a word is determined by the score 
-of the word at the best position.
-We determine the final score of a document query pair
-as the score of the multiplied probabilities of the words 
-at the best position. A detailed explanation
-of the positional language model can be found in \cite{PLM}.
+based on their kernel distance to the position.
+The final score for a word is determined by the 
+propagated score of the word at the best position.
+A detailed explanation of the positional language model can 
+be found in \cite{PLM}.
 
 We implemented the positional language model
 with the best position strategy and dirichlet prior smoothing.
 We considered five different kernel functions:
-Gaussian, Triangle, Cosine, Circle and Passage
-with $\sigma = 50$ fixed.
+Gaussian, Triangle, Cosine, Circle and Passage.
 The formulas for these functions are in \cite{PLM},
-except for the \textit{Passage} kernel which
+except for the `Passage' kernel which
 is given by $I(|i - j| <= \sigma)$.
+We implemented these kernels with $\sigma = 50$ fixed.
+We determine the final score of a document query pair
+as the score of the multiplied probabilities of the words 
+at the best position 
+(for computational reasons we actually use the log of the sum). 
 
 
 \paragraph{Implementation}
 
-Given a kernel function $k$ and $c(w,j)$ the indicator
-function of a word $w$ at position $i$,
+Given a kernel function $k$ and the indicator function 
+$c(w,j)$ of the occurence of a word $w$ at position $i$,
 the formula for the positional language model is:
 
 \begin{equation*}
@@ -144,26 +143,26 @@ in order to determine the $p(q|D,i)$ at the
 best position is computationally expensive.
 For this reason, we optimized the implementation.
 
-First, we only consider positions in the interval
-(inclusive) between the left most occurrence and the right most
+First, we only consider positions in the (inclusive) interval
+between the left most occurrence and the right most
 occurrence of a query term in the document.
 We can savely assume that the best position is within this interval
 since the excluded positions have lower probability
-than the left and right most positions
+than the left and right most positions,
 by nature of the kernel functions.
 
 Secondly, we apply the optimization 
 described in \cite{PLM} for calculating
 $\sum_{w' \in V} \sum_{j=1}^N c(w',j)k(i,j)$.
-That is, we calculate $\sum_{j=1}^N k(j,i)$ which
-is shown to be equivalent.
+That is, we actually calculate 
+$\sum_{j=1}^N k(j,i)$ which is shown to be equivalent.
 
-Finally, we cache values that we calculate for 
+Finally, we cache the values that we calculate for 
 $\sum_{j=1}^N k(j,i)$. That is,
 we build a cache that returns the
 value for $\sum_{j=1}^N k(j,i)$ given
 a kernel function $k$, a document length $N$
-and a position $i$. The cache structure
+and a position $i$. The cache
 significantly reduced the run time
 for our test and evaluation runs.
 

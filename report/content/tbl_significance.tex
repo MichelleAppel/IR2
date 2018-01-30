@@ -2,14 +2,14 @@
 \begin{table}
 \scriptsize
   \begin{tabular}{ r | c | c | c | c | c | c }
-                & \thead{TF-IDF} & \thead{Dir.} & 
-                \thead{BM25} & \thead{Abs. D.} & 
-                \thead{JM} & \thead{PLM} \\ \hline
-    \thead{TF-IDF}      &  &  &  &  &  &  \\ \hline
-    \thead{Dir.}        &  &  &  &  &  &  \\ \hline
-    \thead{BM25}        &  &  &  &  &  &  \\ \hline
-    \thead{Abs. D.}     &  &  &  &  &  &  \\ \hline
-    \thead{JM}          &  &  &  &  &  &  \\ \hline
+                & \thead{TF-IDF} & \thead{BM25} & 
+                \thead{JM} & \thead{Dir.} & 
+                \thead{Abs. D.} & \thead{PLM} \\ \hline
+    \thead{TF-IDF}      &        & 0.457 & 0.155 & 0.818 & 0.334 & PLM \\ \hline
+    \thead{BM25}        &  0.457 &       & 0.224 & 0.571 & 0.650 & PLM \\ \hline
+    \thead{JM}          &  0.155 & 0.224 &       & 0.013 & 0.300 & PLM \\ \hline
+    \thead{Dir.}        &  0.818 & 0.571 & \cellcolor{blue!25}0.013 &       & 0.160 & PLM \\ \hline
+    \thead{Abs. D.}     &  0.334 & 0.650 & 0.300 & 0.160 &       & PLM \\ \hline
     \thead{PLM}         &  &  &  &  &  &  \\
     \hline
   \end{tabular}
@@ -17,41 +17,16 @@
 \vspace{5pt}  
   
   \caption{
-     Difference in mean nDCG@10 scores on the testset 
+     P-values obtained from a paired t-test on the nDCG@10 scores
      for the following retrieval models:
      TF-IDF,
      BM25,
      Jelinek-Mercer (0.5),
      Dirichlet Prior (1000),
      Absolute Discounting (0.9),
-     Positional Language Model (k, mu)
-  }
-  \label{tbl_mean_diffs}
-
-  \begin{tabular}{ r | c | c | c | c | c | c }
-                & \thead{TF-IDF} & \thead{Dir.} & 
-                \thead{BM25} & \thead{Abs. D.} & 
-                \thead{JM} & \thead{PLM} \\ \hline
-    \thead{TF-IDF}      &  &  &  &  &  &  \\ \hline
-    \thead{Dir.}        &  &  &  &  &  &  \\ \hline
-    \thead{BM25}        &  &  &  &  &  &  \\ \hline
-    \thead{Abs. D.}     &  &  &  &  &  &  \\ \hline
-    \thead{JM}          &  &  &  &  &  &  \\ \hline
-    \thead{PLM}         &  &  &  &  &  &  \\
-    \hline
-  \end{tabular}
-
-\vspace{5pt}  
-  
-  \caption{
-     P-values obtained from a paired t-test on the testset 
-     for the following retrieval models:
-     TF-IDF,
-     BM25,
-     Jelinek-Mercer (0.5),
-     Dirichlet Prior (1000),
-     Absolute Discounting (0.9),
-     Positional Language Model (k, mu)
+     Positional Language Model (k, mu).
+     The highlighted cells show p-values that are smaller
+     than the significance level 0.05.
   }
   \label{tbl_pvalues}
 

@@ -166,8 +166,10 @@ and a position $i$. The cache
 significantly reduced the run time
 for our test and evaluation runs.
 For example, running the positional
-language model on the test set takes
-approximately TODO! minutes.
+language model on the test set 
+consisting of QQ query document pairs
+took approximately TODO! minutes
+on a laptop with an intel i7 processor.
 
 
 \subsection{Offline Evaluation}
@@ -273,32 +275,65 @@ The results are summarized in Table \ref{tbl_plm}.
 The passage kernel with dirichlet parameter 500 has the highest
 average nDCG@10 score, namely 0.476. We did not look at the
 significance of this result since we are interested
-in finding a reasonable configuration for the positional language model,
-not in proofing that one kernel/parameter combination is better than another.
-Thus, based on the results shown in Table \ref{tbl_plm}  we use for the rest 
-of the experiment the positional language model with a passage kernel and 
-dirichlet smoothing parameter value 500.
+in finding a reasonable configuration for the positional language model, not in proofing that one kernel/parameter combination is better than another.
+Thus, based on the results shown in Table \ref{tbl_plm}  we use for the rest of the experiment the positional language model with a passage kernel and dirichlet smoothing parameter value 500.
 
 \input{content/tbl_plm_hyperparams}
 
 \paragraph{Results}
 
-We compare the performance of the retrieval models by applying them on the query-document pairs in the test set. Table \ref{tbl_means} show the scores
-of these models for different metrics. The scores show the average results
-over all queries in the testset.
-We have decided on nDCG@10 as our main metric of interest. If we
-compare the results for nDCG@10 we see that TF-IDF has the highest
-value (0.490). In the next section we discuss the significance 
-of these results. 
+We compare the performance of the retrieval models by applying them on the query-document pairs in the test set. 
+As a result of running our evaluation we generate scores per query for each retrieval function
+for different metrics. The mean of these values are shown in Table \ref{tbl_means}. 
+We have decided on nDCG@10 as our main metric of interest beforehand, when we set up the experiment. If we compare the results for nDCG@10 we see that TF-IDF has the highest
+value (0.490), followed by Dirichlet (0.486), BM25 (0.479), Absolute Discounting (0.473),
+and Jelinek-Mercer (0.465) as the least performing retrieval model.
+In the next paragraph we discuss the significance 
+of these results
 
 \input{content/tbl_means}
 
+\paragraph{Significance}
+
+We use a two-tailed paired t-test to decide whether the observed differences in the means 
+of Table \ref{tbl_means}, row nDCG@10, are significant.
+We use the paired t-test because the samples of scores are related,
+that is, they are for the same queries.
+We use a two-tailed test because we are interested in determining
+whether there exists a significant difference in any direction.
+We use a significance level of 0.05 as this significance level is widely used
+in practice.
+
+The resulting p-values of the two-tailed paired t-test are shown in \ref{tbl_pvalues},
+the highlighted cells show pvalues that are below the significance level set at 0.05.
+Thus, the only significant difference that we found for the retrieval methods
+that we studied is between the methods Dirichlet-1000 and Jelinek-Mercer-0.5.
+Since Dirichlet-1000 has a higher average nDCG@10 value than Jelinek-Mercer 
+(0.486 versus 0.465), these results suggest that Dirichlet-1000 performs significantly
+better than Jelinek-Mercer.
+Notice that TF-IDF has a higher average mean than Dirichlet-1000 but 
+does not significantly performs better than Jelinek-Mercer (pvalue: 0.155).
+This is possible since the distribution for the differences between TF-IDF 
+and Jelinek-Mercer differs from the distribution of differences between
+Dirichlet-1000 and Jelinek-Mercer, that is, these distributions have a different 
+standard deviation.
+
+Thus, can we conclude that Dirichlet-1000 performs significantly better than Jelinek-Mercer?
+To answer this question we have to discuss the multiple comparison problem.
+The multiple comparison problem states that the chance of obtaining at least one ''statistically significant'' result is greater than the significance level set for each individual
+comparison (even if all null hypotheses are true).
+
+http://mathworld.wolfram.com/BonferroniCorrection.html
 
 \subsubsection{Analysis}
 \label{AnalysisLexicalModels}
 
-In Section \ref{ResultsLexicalModels} we calculated the nDCG@10 scores
-for each retrieval function averaged over the querie results.
+
+
+
+
+
+In Section \ref{ResultsLexicalModels} we calculated the nDCG@10 scores for each retrieval function averaged over the querie results.
 
 
 
@@ -306,9 +341,6 @@ for each retrieval function averaged over the querie results.
 
 - manual inspection
 
-Calculates the T-test on TWO RELATED samples of scores, a and b.
-
-This is a two-sided test for the null hypothesis that 2 related or repeated samples have identical average (expected) values.
 
 \input{content/tbl_significance}
 

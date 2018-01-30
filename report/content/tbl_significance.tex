@@ -1,0 +1,60 @@
+\begin{center}
+\begin{table}
+\scriptsize
+  \begin{tabular}{ r | c | c | c | c | c | c }
+                & \thead{TF-IDF} & \thead{Dir.} & 
+                \thead{BM25} & \thead{Abs. D.} & 
+                \thead{JM} & \thead{PLM} \\ \hline
+    \thead{TF-IDF}      &  &  &  &  &  &  \\ \hline
+    \thead{Dir.}        &  &  &  &  &  &  \\ \hline
+    \thead{BM25}        &  &  &  &  &  &  \\ \hline
+    \thead{Abs. D.}     &  &  &  &  &  &  \\ \hline
+    \thead{JM}          &  &  &  &  &  &  \\ \hline
+    \thead{PLM}         &  &  &  &  &  &  \\
+    \hline
+  \end{tabular}
+
+\vspace{5pt}  
+  
+  \caption{
+     Difference in mean nDCG@10 scores on the testset 
+     for the following retrieval models:
+     TF-IDF,
+     BM25,
+     Jelinek-Mercer (0.5),
+     Dirichlet Prior (1000),
+     Absolute Discounting (0.9),
+     Positional Language Model (k, mu)
+  }
+  \label{tbl_mean_diffs}
+
+  \begin{tabular}{ r | c | c | c | c | c | c }
+                & \thead{TF-IDF} & \thead{Dir.} & 
+                \thead{BM25} & \thead{Abs. D.} & 
+                \thead{JM} & \thead{PLM} \\ \hline
+    \thead{TF-IDF}      &  &  &  &  &  &  \\ \hline
+    \thead{Dir.}        &  &  &  &  &  &  \\ \hline
+    \thead{BM25}        &  &  &  &  &  &  \\ \hline
+    \thead{Abs. D.}     &  &  &  &  &  &  \\ \hline
+    \thead{JM}          &  &  &  &  &  &  \\ \hline
+    \thead{PLM}         &  &  &  &  &  &  \\
+    \hline
+  \end{tabular}
+
+\vspace{5pt}  
+  
+  \caption{
+     P-values obtained from a paired t-test on the testset 
+     for the following retrieval models:
+     TF-IDF,
+     BM25,
+     Jelinek-Mercer (0.5),
+     Dirichlet Prior (1000),
+     Absolute Discounting (0.9),
+     Positional Language Model (k, mu)
+  }
+  \label{tbl_pvalues}
+
+
+\end{table}
+\end{center}

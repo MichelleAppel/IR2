@@ -242,40 +242,28 @@ We optimize the hyper parameters of the language models
 by comparing the average nDCG@10 scores on the validation set 
 using different values for the hyper parameters.
 The results are shown in Figure \ref{Fig:OptimizingHyperParams}.
-Unfortunately, the results do not look generalizable and it is
-not clear what the best value should be. 
+Unfortunately, the results do not look generalizable and 
+from these figures it is not clear what 
+the best parameter values should be. 
+
+\input{content/fig_hyperparams}
 
 We decided on the actual value that we use in the rest of the experiment
 by comparing three values and picking the value that gave the best result.
 %
-For Jelinek-Mercer we compare the scores for 0.1 (ndcg 0.450),
-0.5 (ndcg 0.468) and 0.9 (ndcg 0.468). Based on these results we pick
+For Jelinek-Mercer we compare the scores for 0.1 (ndcg 0.449),
+0.5 (ndcg 0.465) and 0.9 (ndcg 0.464). Based on these results we pick
+the parameter value 0.5. 
+%
+For Absolute Discounting we compare the scores for 0.1 (ndcg 0.450),
+0.5 (ndcg 0.457) and 0.9 (ndcg 0.473). Based on these results we pick
 the parameter value 0.9. 
 %
-For Absolute Discounting we compare the scores for 0.1 (ndcg 0.454),
-0.5 (ndcg 0.461) and 0.9 (ndcg 0.478). Based on these results we pick
-the parameter value 0.9. 
-%
-For Dirichlet prior we compare the scores for 500 (ndcg 0.484),
-1000 (ndcg 0.489) and 1500 (ndcg 0.484). Based on these results we pick
+For Dirichlet prior we compare the scores for 500 (ndcg 0.482),
+1000 (ndcg 0.486) and 1500 (ndcg 0.483). Based on these results we pick
 the parameter value 1000. 
 
-Jelinek Mercer:
-0.1: 0.450
-0.5: 0.468
-0.9: 0.468
 
-Dirichlet Prior:
-500: 0.484
-1000: 0.489
-1500: 0.484
-
-Absolute Discounting:
-0.1: 0.454
-0.5: 0.461
-0.9: 0.478
-
-\input{content/fig_hyperparams}
 
 
 Positional Language Model:
@@ -293,6 +281,8 @@ Positional Language Model:
 
 \subsubsection{Analysis}
 \label{AnalysisLexicalModels}
+
+\input{content/tbl_significance}
 
 - Do all methods perform similarly on all queries? Why?
 

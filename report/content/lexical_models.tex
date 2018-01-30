@@ -184,15 +184,14 @@ and we provide an analysis of these results
 \subsubsection{Experimental Setup}
 \label{ExperimentalSetup}
 
-\paragraph{Test and Validation Data}
-
+%%%%%%%%%%%% Test and Validation Data
 We create a testset of query-document pairs from a file
 containing queries with labeled documents. The labels tell whether
 a document is considered relevant or not for the given query.
 The testset consists of XXX queries with an average of 
 YYY labeled documents per query. 
 The average query length is ZZZ words.
-
+%
 For optimizing the hyper parameters of our retrieval models
 we build a validation set from a second file with different 
 labeled query-document pairs. 
@@ -201,36 +200,41 @@ YYY labeled documents per query.
 The average query length for the validation set is ZZZ words.
 
 
-\paragraph{Evaluation}
-
+%%%%%%%%%%%% Evaluation pipeline
 We run the retrieval models on the query-document pairs from the
 testset to score the relevance of the document for the query.
 By ordering the documents based on this `relevance' score
 we construct a ranking of documents per query.
+We then compare our ranking with the relevance labels using
+the TREC Eval utility\footnote{\url{https://github.com/usnistgov/trec_eval}}. TREC Eval is the de facto standard way to compute Information Retrieval measures. TREC Eval computes evaluation scores
+for a ranking of documents per query, given
+ground-truth information regarding the relevance of the documents
+for the given query. 
 
-We now compare our ranking with the relevance labels using
-the TREC Eval utility\footnote{\url{https://github.com/usnistgov/trec_eval}}. TREC Eval is the de facto standard way to compute Information Retrieval measures. TREC Eval computes evaluation scores given two files: ground-truth information regarding relevant documents, named query relevance or qrel, and a ranking of documents for a set of queries, referred to as a run. 
-
-\paragraph{Metrics}
-
+%%%%%%%%%% Metrics: ndcg
 TREC Eval produces many different metrics that can be used 
 to estimate the quality of a ranking result.
 We choose normalized discounted cumulative gain (nDCG) as
 our primary metric of interest for comparison of results.
 (n)DCG accumulates the gain of documents from the top of the ranking
 to the bottom, with the gain of each result discounted at lower ranks.
-We compare nDCG scores at rank 10 (nDCG@10) since we consider the top ten results as most important assuming that they 'fit on a page' for a search engine. nDCG it is often used to measure effectiveness of web search engine algorithms.
+We compare nDCG scores at rank 10 (nDCG@10) since we consider the top ten results as most important assuming that they 'fit on a page' for a search engine. nDCG is often used to measure effectiveness of web search engine algorithms.
 
+%%%%%%%%%% Metrics: others
 In addition to nDCG@10 we also show results for some other metrics,
 namely: Mean Average Precision at rank 1000 (MAP@1000), 
 recall at rank 1000 (Recall@1000) and Precision at rank 5 (Precision@5).
 We show these metrics to give a more complete picture and because they
-may be more relevant for other search scenarios.
+may be relevant for other search scenarios.
 
 
 \subsubsection{Results}
 \label{ResultsLexicalModels}
 
+We first optimize the hyper parameters of the 
+language models and then generate scores for
+all retrieval models discussed in 
+Section \ref{LexicalModels:Models}.
 
 \paragraph{Optimizing Hyper Parameters}
 
@@ -249,6 +253,9 @@ Absolute Discounting:
 0.1: 0.454
 0.5: 0.461
 0.9: 0.478
+
+\input{content/fig_hyperparams}
+
 
 Positional Language Model:
 

@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+
+\begin{document}
+
+\section{Introduction}
+Information Retrieval provides the ability of retrieving relevant information sources given a query. An information source is relevant if a user gets desired information from it. To obtain such relevant sources, different methods can be used whereof in this research methods that evaluate document content are considered. Those methods include tf-idf (term frquency - inverted index frequency), BM25 (best match 25), Jelinek-Mercer, Dirichlet prior, absolute discounting, positional language model, LSI (latent semantic index), LDA (latent Dirichlet allocation) and in addition WAWE (weighted average word embeddings) and DESM (dual embedding space model). All different methods are tested using different metrics in comparison to the ground truth relevance.
+
+
+
+
+
+\section{Task 3: Word embeddings}
+In order to provide semantic representation of terms, word embeddings can be used which represent words as vectors, where similar words occur near each other in the vector space. Using word embeddings potentially solves the mismatch problem of a relevant query-document pair which both contain other synonyms of the same subject, as word embeddings represent them in such a way that they do show similarity. It is assumed that similarity of terms can be measured in terms of co occurrence of those terms in documents and a word embedding model can be trained accordingly.
+
+The word embeddings (or word vectors) are trained using the gensim's word2vec method\footnote{\href{https://radimrehurek.com/gensim/models/word2vec.html}{models.word2vec – Deep learning with word2vec}} with the provided documents as source. An embedding size of 350 is chosen, as this is roughly estimated to be large enough to capture all topics of all provided documents. A window size of 8 is chosen, which is the maximum distance between two words to be seen as co occurring within a document. All words in the documents are considered for making the word vectors; there is no minimum word frequency, so that even rare terms can be found by a query.
+
+After training the word embeddings, each word in the vocabulary can be represented as a vector with 350 dimensions. Different methods can be used to match a query to a document using those word embeddings.
+
+\subsection{WAWE}
+WAWE (weighted average word embedding) uses weighted averages of the word embeddings of a query and a document and measures similarity by comparing the distance between them. An weighted average word embedding of a query or a document is given by:
+
+$$\vec{wv_{wa}} = \frac{1}{N} \sum_{i=1}^{N} \frac{\vec{wv_i}}{tf(wv_i)}$$
+
+where $wv_{wa}$ is the weighted average word embedding, $N$ is the number of vectors over wich the average is taken, and ctf($wv_i$) is the term frequency in the corpus of the regarding word. Thus the weight of a vector is inversely proportional to it's occurrence in the corpus, meaning that rarely occurring words are considered more important than frequently occurring words.
+
+To compute a similarity score between a query and a document, the cosine similarity of the two corresponding WAWE's is calculated. The cosine similarity is given by:
+
+
+$$\text{similarity} = \cos(\theta) = {\mathbf{A} \cdot \mathbf{B} \over \|\mathbf{A}\| \|\mathbf{B}\|} = \frac{ \sum\limits_{i=1}^{n}{A_i  B_i} }{ \sqrt{\sum\limits_{i=1}^{n}{A_i^2}}  \sqrt{\sum\limits_{i=1}^{n}{B_i^2}} }$$ 
+
+where $A_i$ and $B_i$ are components of vector $A$ and $B$ respectively. The results vary between -1, which means that the vectors are exactly opposites, and 1 which means that the vectors are exactly the same. All values in between correspond to some degree of similarity.
+
+The cosine similarity is used to rank the documents. For each query-document pair the cosine similarity is calculated, and the results are sorted in descending ordered which results in a ranking of the documents relevance with respect to the query.
+
+\subsection{DESM}
+Dual embedding space models blablabla
+
+\end{document}

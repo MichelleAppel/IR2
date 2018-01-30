@@ -20,7 +20,11 @@
 or fail and discuss possible reasons that cause these differences (manual inspection)
 - Decide on a method to 'mitigate' the multiple comparison problem with t-tests
 
-
+#### TODO Task 2:
+- Hyperparameter search / optimisation for LSI and LDA model
+- Train both models for final evaluation
+- Evaluate using the same measures as Task 1
+- Compare results with tf-idf, do t-test 
 
 <br>
 <br>

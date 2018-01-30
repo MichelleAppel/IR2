@@ -123,8 +123,8 @@ is given by $I(|i - j| <= \sigma)$.
 We implemented these kernels with $\sigma = 50$ fixed.
 We determine the final score of a document query pair
 as the score of the multiplied probabilities of the words 
-at the best position 
-(for computational reasons we actually use the log of the sum). 
+at the best position (for computational reasons we actually use 
+the log of the sum). 
 
 
 \paragraph{Implementation}
@@ -165,25 +165,44 @@ a kernel function $k$, a document length $N$
 and a position $i$. The cache
 significantly reduced the run time
 for our test and evaluation runs.
+For example, running the positional
+language model on the test set takes
+approximately TODO! minutes.
 
 
 \subsection{Offline Evaluation}
 \label{LexicalModels:Evaluation}
 
-\subsection{Experimental Setup}
+\subsubsection{Experimental Setup}
 
-%%% Testdata
+\paragraph{Testset}
+- XXX queries with an average of YY labeled documents per query.
+labels: relevant or not relevant
 
-%%% Tuning hyper params
+- run our retrieval functions and score all labeled document-query pairs
+this results in a ranking of the documents for the query
 
-%%% Metrics
+- run trec-eval to evaluate this ranking using different metrics
+
+
+
+For evaluation you'll use the TREC Eval utility, provided by the National Institute of Standards and Technology of the United States. TREC Eval is the de facto standard way to compute Information Retrieval measures
+
+TREC Eval computes evaluation scores given two files: ground-truth information regarding relevant documents, named query relevance or qrel, and a ranking of documents for a set of queries, referred to as a run. The qrel will be supplied by us and should not be changed. For every retrieval model (or combinations thereof) you will generate a run of the top-1000 documents for every query. The format of the run file is as follows:
+
+
+\paragraph{Metrics}
+
 We use trec eval and compare on ...
+
+NDCG@10
+
 - NDCG@10, 
 - Mean Average Precision (MAP@1000) 
 - Precision@5
 - Recall@1000.
 
-\subsection{Optimizing Hyper Parameters}
+\paragraph{Optimizing Hyper Parameters}
 
 - We use NDCG@10 as a metric. Why?
 
@@ -207,7 +226,7 @@ Positional Language Model:
 \input{content/tbl_plm_hyperparams}
 
 
-\subsection{Results}
+\subsubsection{Results}
 
 - means
 \input{content/tbl_means}
@@ -217,7 +236,7 @@ Positional Language Model:
 
 - manual inspection
 
-\subsection{Discussion}
+\subsubsection{Analysis}
 
 - Do all methods perform similarly on all queries? Why?
 

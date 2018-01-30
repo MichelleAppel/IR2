@@ -5,9 +5,9 @@
                 & \thead{TF-IDF} & \thead{BM25} & 
                 \thead{JM} & \thead{Dir.} & 
                 \thead{Abs. D.} & \thead{PLM} \\ \hline
-    \thead{prec@5}      & 0.504 & 0.467 & 0.466 & 0.486 & 0.481 & PLM \\ \hline
+    \thead{prec@5}      & \cellcolor{blue!25}0.504 & 0.467 & 0.466 & 0.486 & 0.481 & PLM \\ \hline
     \thead{recall@1000} & 0.983 & 0.983 & 0.983 & 0.983 & 0.983 & PLM \\ \hline
-    \thead{map@1000}    & 0.409 & 0.408 & 0.407 & 0.414 & 0.408 & PLM \\ \hline
+    \thead{map@1000}    & 0.409 & 0.408 & 0.407 & \cellcolor{blue!25}0.414 & 0.408 & PLM \\ \hline
     \thead{ndcg@10}     & \cellcolor{blue!25}0.490 & 0.479 & 0.465 & 0.486 & 0.473 & PLM \\
     \hline
   \end{tabular}
@@ -22,7 +22,7 @@
      Dirichlet Prior (1000),
      Absolute Discounting (0.9),
      Positional Language Model (k, mu).
-     The highlighted cell shows the maximum nDCG@10 score.
+     The highlighted cell show the maximum score for each metric.
   }
   \label{tbl_means}
 \end{table}

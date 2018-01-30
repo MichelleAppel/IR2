@@ -266,21 +266,34 @@ the parameter value 1000.
 
 
 
-Positional Language Model:
+For the positional language model we compare combinations of
+kernel functions and hyperparameter values for dirichlet smoothing.
+We leave the hyper parameter for the kernel functions ($\sigma$) fixed at 50.
+The results are summarized in Table \ref{tbl_plm}.
+Based on these result we use for the rest of the experiments
+the positional language model with a XXX kernel and dirichlet smoothing parameter value YYY.
 
 \input{content/tbl_plm_hyperparams}
 
+\paragraph{Results}
 
-- means
+We compare the performance of the retrieval models by applying them on the query-document pairs in the test set. Table \ref{tbl_means} show the scores
+of these models for different metrics. The scores show the average results
+over all queries in the testset.
+We have decided on nDCG@10 as our main metric of interest. If we
+compare the results for nDCG@10 we see that TF-IDF has the highest
+value (0.490). In the next section we discuss the significance 
+of these results. 
+
 \input{content/tbl_means}
 
+
+\subsubsection{Analysis}
+\label{AnalysisLexicalModels}
 
 - pvalues
 
 - manual inspection
-
-\subsubsection{Analysis}
-\label{AnalysisLexicalModels}
 
 Calculates the T-test on TWO RELATED samples of scores, a and b.
 

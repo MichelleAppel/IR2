@@ -238,6 +238,27 @@ Section \ref{LexicalModels:Models}.
 
 \paragraph{Optimizing Hyper Parameters}
 
+We optimize the hyper parameters of the language models
+by comparing the average nDCG@10 scores on the validation set 
+using different values for the hyper parameters.
+The results are shown in Figure \ref{Fig:OptimizingHyperParams}.
+Unfortunately, the results do not look generalizable and it is
+not clear what the best value should be. 
+
+We decided on the actual value that we use in the rest of the experiment
+by comparing three values and picking the value that gave the best result.
+%
+For Jelinek-Mercer we compare the scores for 0.1 (ndcg 0.450),
+0.5 (ndcg 0.468) and 0.9 (ndcg 0.468). Based on these results we pick
+the parameter value 0.9. 
+%
+For Absolute Discounting we compare the scores for 0.1 (ndcg 0.454),
+0.5 (ndcg 0.461) and 0.9 (ndcg 0.478). Based on these results we pick
+the parameter value 0.9. 
+%
+For Dirichlet prior we compare the scores for 500 (ndcg 0.484),
+1000 (ndcg 0.489) and 1500 (ndcg 0.484). Based on these results we pick
+the parameter value 1000. 
 
 Jelinek Mercer:
 0.1: 0.450

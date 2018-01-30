@@ -173,12 +173,16 @@ approximately TODO! minutes.
 \subsection{Offline Evaluation}
 \label{LexicalModels:Evaluation}
 
-\subsubsection{Experimental Setup}
-
 We compare the retrieval models that we implemented
-using offline evaluation. Below we explain
-our experimental setup.
+using offline evaluation. Below we describe
+our experimental setup (Section \ref{ExperimentalSetup}), 
+the results that we obtained for our lexical retrieval models 
+(Section \ref{ResultsLexicalModels}), 
+and we provide an analysis of these results 
+(Section \ref{AnalysisLexicalModels}).
 
+\subsubsection{Experimental Setup}
+\label{ExperimentalSetup}
 
 \paragraph{Test and Validation Data}
 
@@ -224,9 +228,12 @@ We show these metrics to give a more complete picture and because they
 may be more relevant for other search scenarios.
 
 
-\subsubsection{Optimizing Hyper Parameters}
+\subsubsection{Results}
+\label{ResultsLexicalModels}
 
-- We use NDCG@10 as a metric. Why?
+
+\paragraph{Optimizing Hyper Parameters}
+
 
 Jelinek Mercer:
 0.1: 0.450
@@ -248,8 +255,6 @@ Positional Language Model:
 \input{content/tbl_plm_hyperparams}
 
 
-\subsubsection{Results}
-
 - means
 \input{content/tbl_means}
 
@@ -259,6 +264,7 @@ Positional Language Model:
 - manual inspection
 
 \subsubsection{Analysis}
+\label{AnalysisLexicalModels}
 
 - Do all methods perform similarly on all queries? Why?
 

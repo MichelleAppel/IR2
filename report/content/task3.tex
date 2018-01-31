@@ -21,20 +21,30 @@ After training the word embeddings, each word in the vocabulary can be represent
 \subsection{WAWE}
 WAWE (weighted average word embedding) uses weighted averages of the word embeddings of a query and a document and measures similarity by comparing the distance between them. An weighted average word embedding of a query or a document is given by:
 
-$$\vec{wv_{wa}} = \frac{1}{N} \sum_{i=1}^{N} \frac{\vec{wv_i}}{tf(wv_i)}$$
+$$ \overline{wv} = \frac{1}{|T|} \sum_{t_i \in T} \frac{wv(t_i)}{ctf(t_i)}$$
 
-where $wv_{wa}$ is the weighted average word embedding, $N$ is the number of vectors over wich the average is taken, and ctf($wv_i$) is the term frequency in the corpus of the regarding word. Thus the weight of a vector is inversely proportional to it's occurrence in the corpus, meaning that rarely occurring words are considered more important than frequently occurring words.
+where $\overline{wv}$ is the weighted average word embedding, $T$ is the collection of words in the text which are to be averaged, $|T|$ the number of words in the text over wich the average is taken, $t_i$ is some word in the text, $wv(t_i)$ is the word vector corresponding to the word and ctf($t_i$) is the term frequency in the corpus of the regarding word. Thus the weight of a vector is inversely proportional to it's occurrence in the corpus, meaning that rarely occurring words are considered more important than frequently occurring words.
 
 To compute a similarity score between a query and a document, the cosine similarity of the two corresponding WAWE's is calculated. The cosine similarity is given by:
 
 
-$$\text{similarity} = \cos(\theta) = {\mathbf{A} \cdot \mathbf{B} \over \|\mathbf{A}\| \|\mathbf{B}\|} = \frac{ \sum\limits_{i=1}^{n}{A_i  B_i} }{ \sqrt{\sum\limits_{i=1}^{n}{A_i^2}}  \sqrt{\sum\limits_{i=1}^{n}{B_i^2}} }$$ 
+$$\text{similarity} = {\overline{wv}_q \cdot \overline{wv}_d \over \|\overline{wv}_q\| \|\overline{wv}_d\|} = \frac{ \sum\limits_{i=1}^{n}{{\overline{wv}_q}_i  {\overline{wv}_d}}_i }{ \sqrt{\sum\limits_{i=1}^{n}{{\overline{wv}_q^2}}_i}  \sqrt{\sum\limits_{i=1}^{n}{{\overline{wv}_d^2}_i}} }$$ 
 
-where $A_i$ and $B_i$ are components of vector $A$ and $B$ respectively. The results vary between -1, which means that the vectors are exactly opposites, and 1 which means that the vectors are exactly the same. All values in between correspond to some degree of similarity.
+where $\overline{wv}_q$ is the WAWE of the query and $\overline{wv}_q$ is the WAWE of the document. The results vary between -1, which means that the vectors are exactlhttps://github.com/MichelleAppel/IR2/tree/master/reporty opposites, and 1 which means that the vectors are exactly the same. All values in between correspond to some degree of similarity.
 
 The cosine similarity is used to rank the documents. For each query-document pair the cosine similarity is calculated, and the results are sorted in descending ordered which results in a ranking of the documents relevance with respect to the query.
 
 \subsection{DESM}
-Dual embedding space models blablabla
+Dual embedding space models, as proposed by Nalisnick et al., provide evidence that a document is about a query term by giving a score to it's similarity, given by:
+
+$$ DESM(Q, D) = \frac{1}{|Q|} \sum_{q_i \in Q} \frac{q_i^T \overline{D}}{\|q_i\|\|\overline{D}\|} $$
+
+where,
+
+$$ \overline{D} = \frac{1}{|D|} \sum_{d_j \in D} \frac{d_j}{\|d_j\|} $$
+
+$\overline{D}$ is the centroid of all normalized document word vectors serving as a single embedding for the whole document. The more similar the word embeddings of the query and document are, the higher the score, as the dot product of two vectors results in high values when its components are equally signed. 
+
+This score is used to rank the query-document pairs, by calculating the DESM score for each query-document pair and sort them in descending order.
 
 \end{document}

@@ -5,12 +5,12 @@
                 & \thead{TF-IDF} & \thead{BM25} & 
                 \thead{JM} & \thead{Dir.} & 
                 \thead{Abs. D.} & \thead{PLM} \\ \hline
-    \thead{TF-IDF}      & \cellcolor{black!25}        & 0.457 & 0.155 & 0.818 & 0.334 & PLM \\ \hline
-    \thead{BM25}        &  0.457 & \cellcolor{black!25}      & 0.224 & 0.571 & 0.650 & PLM \\ \hline
-    \thead{JM}          &  0.155 & 0.224 &    \cellcolor{black!25}   & 0.013 & 0.300 & PLM \\ \hline
-    \thead{Dir.}        &  0.818 & 0.571 & \cellcolor{blue!25}0.013 &  \cellcolor{black!25}     & 0.160 & PLM \\ \hline
-    \thead{Abs. D.}     &  0.334 & 0.650 & 0.300 & 0.160 &    \cellcolor{black!25}   & PLM \\ \hline
-    \thead{PLM}         &  &  &  &  &  & \cellcolor{black!25} \\
+    \thead{TF-IDF}      & \cellcolor{black!25}        & 0.457 & 0.155 & 0.818 & 0.334 & 0.221 \\ \hline
+    \thead{BM25}        &  0.457 & \cellcolor{black!25}      & 0.224 & 0.571 & 0.650 & 0.540 \\ \hline
+    \thead{JM}          &  0.155 & 0.224 &    \cellcolor{black!25}   & 0.013 & 0.300 & 0.385 \\ \hline
+    \thead{Dir.}        &  0.818 & 0.571 & \cellcolor{blue!25}0.013 &  \cellcolor{black!25}     & 0.160 & 0.699 \\ \hline
+    \thead{Abs. D.}     &  0.334 & 0.650 & 0.300 & 0.160 &    \cellcolor{black!25}   & 0.923 \\ \hline
+    \thead{PLM}         & 0.221 & 0.540 & 0.385 & 0.699 & 0.923  & \cellcolor{black!25} \\
     \hline
   \end{tabular}
 
@@ -24,7 +24,7 @@
      Jelinek-Mercer (0.5),
      Dirichlet Prior (1000),
      Absolute Discounting (0.9),
-     Positional Language Model (k, mu).
+     Positional Language Model (passage-kernel, 500).
      The highlighted cells show p-values that are smaller
      than the significance level 0.05.
   }

@@ -5,10 +5,10 @@
                 & \thead{TF-IDF} & \thead{BM25} & 
                 \thead{JM} & \thead{Dir.} & 
                 \thead{Abs. D.} & \thead{PLM} \\ \hline
-    \thead{prec@5}      & 0.504 & 0.467 & 0.466 & 0.486 & 0.481 & PLM \\ \hline
-    \thead{recall@1000} & 0.983 & 0.983 & 0.983 & 0.983 & 0.983 & PLM \\ \hline
-    \thead{map@1000}    & 0.409 & 0.408 & 0.407 & 0.414 & 0.408 & PLM \\ \hline
-    \thead{ndcg@10}     & \cellcolor{blue!25}0.490 & 0.479 & 0.465 & 0.486 & 0.473 & PLM \\
+    \thead{prec@5}      & 0.504 & 0.467 & 0.466 & 0.486 & 0.481 & 0.479 \\ \hline
+    \thead{recall@1000} & 0.983 & 0.983 & 0.983 & 0.983 & 0.983 & 0.983 \\ \hline
+    \thead{map@1000}    & 0.409 & 0.408 & 0.407 & 0.414 & 0.408 & 0.404 \\ \hline
+    \thead{ndcg@10}     & \cellcolor{blue!25}0.490 & 0.479 & 0.465 & 0.486 & 0.473 & 0.476 \\
     \hline
   \end{tabular}
 
@@ -21,7 +21,7 @@
      Jelinek-Mercer (0.5),
      Dirichlet Prior (1000),
      Absolute Discounting (0.9),
-     Positional Language Model (k, mu).
+     Positional Language Model (passage-kernel, 500).
      The highlighted cell shows the maximum score for nDCG@10, our main metric.
   }
   \label{tbl_means}

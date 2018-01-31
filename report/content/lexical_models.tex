@@ -187,6 +187,9 @@ and we provide an analysis of these results
 \label{ExperimentalSetup}
 
 %%%%%%%%%%%% Test and Validation Data
+
+\paragraph{Test and Validation Set}
+
 We create a testset of query-document pairs from a file
 containing queries with labeled documents. The labels tell whether
 a document is considered relevant or not for the given query.
@@ -201,6 +204,7 @@ The validation set consists of XXX queries with an average of
 YYY labeled documents per query. 
 The average query length for the validation set is ZZZ words.
 
+\paragraph{Comparing Retrieval Methods}
 
 %%%%%%%%%%%% Evaluation pipeline
 We run the retrieval models on the query-document pairs from the
@@ -212,6 +216,8 @@ the TREC Eval utility\footnote{\url{https://github.com/usnistgov/trec_eval}}. TR
 for a ranking of documents per query, given
 ground-truth information regarding the relevance of the documents
 for the given query. 
+
+\paragraph{Metrics}
 
 %%%%%%%%%% Metrics: ndcg
 TREC Eval produces many different metrics that can be used 
@@ -238,7 +244,7 @@ language models and then generate scores for
 all retrieval models discussed in 
 Section \ref{LexicalModels:Models}.
 
-\paragraph{Optimizing Hyper Parameters}
+\paragraph{Hyper Parameters}
 
 We optimize the hyper parameters of the language models
 by comparing the average nDCG@10 scores on the validation set 
@@ -295,35 +301,40 @@ of these results
 
 \paragraph{Significance}
 
-We use a two-tailed paired t-test to decide whether the observed differences in the means 
-of Table \ref{tbl_means}, row nDCG@10, are significant.
+We use a two-tailed paired t-test to decide whether the observed differences in the means of the nDCG@10 scores (Table \ref{tbl_means}, row nDCG@10) are significant.
 We use the paired t-test because the samples of scores are related,
 that is, they are for the same queries.
 We use a two-tailed test because we are interested in determining
 whether there exists a significant difference in any direction.
-We use a significance level of 0.05 as this significance level is widely used
-in practice.
+We use a significance level of $\alpha = 0.05$ as this significance level is widely used in practice.
 
-The resulting p-values of the two-tailed paired t-test are shown in \ref{tbl_pvalues},
-the highlighted cells show pvalues that are below the significance level set at 0.05.
-Thus, the only significant difference that we found for the retrieval methods
-that we studied is between the methods Dirichlet-1000 and Jelinek-Mercer-0.5.
-Since Dirichlet-1000 has a higher average nDCG@10 value than Jelinek-Mercer 
-(0.486 versus 0.465), these results suggest that Dirichlet-1000 performs significantly
-better than Jelinek-Mercer.
+\input{content/tbl_significance}
+
+The resulting p-values of the two-tailed paired t-test are shown in \ref{tbl_pvalues}, the highlighted cells show the p-values that are below the significance level. Thus, the only significant difference that we found for the retrieval methods that we studied is between the methods Dirichlet-1000 and Jelinek-Mercer-0.5.
 Notice that TF-IDF has a higher average mean than Dirichlet-1000 but 
-does not significantly performs better than Jelinek-Mercer (pvalue: 0.155).
+does not significantly performs better than Jelinek-Mercer (p-value: 0.155).
 This is possible since the distribution for the differences between TF-IDF 
 and Jelinek-Mercer differs from the distribution of differences between
 Dirichlet-1000 and Jelinek-Mercer, that is, these distributions have a different 
 standard deviation.
 
-Thus, can we conclude that Dirichlet-1000 performs significantly better than Jelinek-Mercer?
-To answer this question we have to discuss the multiple comparison problem.
-The multiple comparison problem states that the chance of obtaining at least one ''statistically significant'' result is greater than the significance level set for each individual
-comparison (even if all null hypotheses are true).
+Dirichlet-1000 has a higher average nDCG@10 value than Jelinek-Mercer 
+(0.486 versus 0.465; Table \ref{tbl_means}), and this result is significant
+given a significance level of 0.05 (p-value 0.013, Table \ref{tbl_pvalues}).
+Thus, can we now conclude that Dirichlet-1000 performs significantly better than Jelinek-Mercer? To answer this question we have to discuss the multiple comparison problem.
+The multiple comparison problem states that the chance of obtaining at least one ''statistically significant'' result is greater than the significance level set for each individual comparison (even if all null hypotheses are true).
+In order to avoid a lot of false positives, the significance level needs to be lowered to account for the number of comparisons being performed.
 
-http://mathworld.wolfram.com/BonferroniCorrection.html
+A conservative approach is the Bonferroni 
+correction\footnote{\url{http://mathworld.wolfram.com/BonferroniCorrection.html}}, 
+which sets the significance level for the entire set of $n$ comparisons equal to $\alpha$ by setting the $\alpha$ values for each comparison equal to $\frac{alpha}{n}$.
+In our case, we compare six retrieval methods pairwise, wich results in
+$n = \frac{6!}{2!(6-2)!} = 15$ comparisons. Thus, when we apply the Bonferri
+correction we obtain a corrected significance level of
+ $\alpha = \frac{0.05}{15} = 0.0033$. According to this new significance level
+ we can not reject any null hypothesis, that is, we can not reject the
+ hypothesis that all our retrival methods have the same performance.
+
 
 \subsubsection{Analysis}
 \label{AnalysisLexicalModels}
@@ -333,16 +344,10 @@ http://mathworld.wolfram.com/BonferroniCorrection.html
 
 
 
-In Section \ref{ResultsLexicalModels} we calculated the nDCG@10 scores for each retrieval function averaged over the querie results.
-
-
-
-- pvalues
 
 - manual inspection
 
 
-\input{content/tbl_significance}
 
 - Do all methods perform similarly on all queries? Why?
 
